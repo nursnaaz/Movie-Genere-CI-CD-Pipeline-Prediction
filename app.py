@@ -22,7 +22,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
-
+# Load the saved MultiLabelBinarizer
+mlb_new = pickle.load(open("mlb.pkl", 'rb'))
+# Load the saved model
+pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
 # # Load the dataset
 # data = pd.read_csv('movies_metadata.csv')
 
@@ -98,10 +101,6 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Load the saved MultiLabelBinarizer
-    mlb_new = pickle.load(open("mlb.pkl", 'rb'))
-    # Load the saved model
-    pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
     # dat = request.get_json()
     # print(dat)
     overview =  request.form["overview"]
