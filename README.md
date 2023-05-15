@@ -147,6 +147,8 @@ To set up CI/CD for your own repository, you can follow these steps:
 
 * Push the code to the GitHub repository, and the CI/CD pipeline will automatically trigger. The workflow will build, test, and deploy the code to your Heroku app.
 
+![Screenshot 2023-05-15 at 7 20 04 PM](https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/a6ba4881-3d98-4394-a8cb-2685fa940075)
+
 
 ## License
 The movie genre classification project is released under the MIT License. You are free to use, modify, and distribute the code for personal and commercial purposes.
