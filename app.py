@@ -15,6 +15,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 import pickle
 from sklearn.metrics import accuracy_score, f1_score
+import os
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -169,4 +170,4 @@ def predict_api():
 if __name__ == '__main__':
     download_nltk_data()
     load_model()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
