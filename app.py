@@ -186,7 +186,6 @@ def predict_api():
         JSON response: Returns a JSON response containing the predicted genres.
     """
     try:
-
         overview =  request.form["overview"]
         if not overview or not overview.strip():
             logger.error("Error: Empty input overview (API).")
