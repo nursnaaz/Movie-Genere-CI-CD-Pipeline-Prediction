@@ -18,8 +18,7 @@ Docker (optional)
 4. Model Training
 5. Model Evaluation
 6. CI/CD
-7. Contributing
-8. License
+7. License
 
 
 # Introduction
