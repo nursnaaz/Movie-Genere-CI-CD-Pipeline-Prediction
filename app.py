@@ -41,11 +41,15 @@ def download_nltk_data():
 
 def load_model():
     global mlb_new, pipeline
-    # Load the saved MultiLabelBinarizer
-    mlb_new = pickle.load(open("mlb.pkl", 'rb'))
-    print(mlb_new)
-    # Load the saved model
-    pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
+    try:
+        # Load the saved MultiLabelBinarizer
+        mlb_new = pickle.load(open("mlb.pkl", 'rb'))
+        # Load the saved model
+        pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
+    except FileNotFoundError as e:
+        logger.error(f"Error loading model: {str(e)}")
+    except pickle.UnpicklingError as e:
+        logger.error(f"Error unpickling model: {str(e)}")
 
 # Text cleaning and stopword removal
 class TextPreprocessor(BaseEstimator, TransformerMixin):
@@ -149,22 +153,29 @@ def predict():
     Returns:
         rendered HTML template: Renders the result.html template with the predicted genres.
     """
-    overview =  request.form["overview"]
-    # Log the input overview
-    logger.info(f'Input overview: {overview}')
-    # Transform the input overview
-    overview_cleaned = pd.Series(overview).apply(pipeline.named_steps['cleaner'].clean_text)
-    # Predict the genres
-    y_pred_prob = pipeline.predict_proba(overview_cleaned)
-    t = 0.3  # threshold value
-    y_pred_new = (y_pred_prob >= t).astype(int)
-    # Convert the binary predictions back to genre labels
-    predicted_genres = mlb_new.inverse_transform(y_pred_new)
-    # Format the predicted genres as a list
-    predicted_genres = [list(genres) for genres in predicted_genres]
-    # Log the predicted genres
-    logger.info(f'Predicted genres: {predicted_genres}')
-    return render_template('index.html', overview=overview, predicted_genres=predicted_genres)
+    try:
+        overview =  request.form["overview"]
+        if not overview or not overview.strip():
+            logger.error("Error: Empty input overview.")
+            return render_template('index.html', error_message="Error: Empty input overview.")
+        # Log the input overview
+        logger.info(f'Input overview: {overview}')
+        # Transform the input overview
+        overview_cleaned = pd.Series(overview).apply(pipeline.named_steps['cleaner'].clean_text)
+        # Predict the genres
+        y_pred_prob = pipeline.predict_proba(overview_cleaned)
+        t = 0.3  # threshold value
+        y_pred_new = (y_pred_prob >= t).astype(int)
+        # Convert the binary predictions back to genre labels
+        predicted_genres = mlb_new.inverse_transform(y_pred_new)
+        # Format the predicted genres as a list
+        predicted_genres = [list(genres) for genres in predicted_genres]
+        # Log the predicted genres
+        logger.info(f'Predicted genres: {predicted_genres}')
+        return render_template('index.html', overview=overview, predicted_genres=predicted_genres)
+    except:
+        logger.error(f"Error predicting genres: {str(e)}")
+        return render_template('index.html', error_message="An error occurred while predicting the genres.")
 
 @app.route('/predict_api', methods=['POST'])
 def predict_api():
@@ -174,25 +185,33 @@ def predict_api():
     Returns:
         JSON response: Returns a JSON response containing the predicted genres.
     """
-    overview =  request.form["overview"]
-    # Log the input overview
-    logger.info(f'Input overview (API): {overview}')
-    # Transform the input overview
-    overview_cleaned = pd.Series(overview).apply(pipeline.named_steps['cleaner'].clean_text)
-    # Predict the genres
-    y_pred_prob = pipeline.predict_proba(overview_cleaned)
-    t = 0.3  # threshold value
-    y_pred_new = (y_pred_prob >= t).astype(int)
-    # Convert the binary predictions back to genre labels
-    predicted_genres = mlb_new.inverse_transform(y_pred_new)
-    # Format the predicted genres as a list
-    predicted_genres = [list(genres) for genres in predicted_genres]
-    res = {}
-    res['genre'] = predicted_genres
-    # Log the predicted genres
-    logger.info(f'Predicted genres (API): {predicted_genres}')
-    # Return the JSON response
-    return res
+    try:
+
+        overview =  request.form["overview"]
+        if not overview or not overview.strip():
+            logger.error("Error: Empty input overview (API).")
+            return {"error": "Error: Empty input overview."}
+        # Log the input overview
+        logger.info(f'Input overview (API): {overview}')
+        # Transform the input overview
+        overview_cleaned = pd.Series(overview).apply(pipeline.named_steps['cleaner'].clean_text)
+        # Predict the genres
+        y_pred_prob = pipeline.predict_proba(overview_cleaned)
+        t = 0.3  # threshold value
+        y_pred_new = (y_pred_prob >= t).astype(int)
+        # Convert the binary predictions back to genre labels
+        predicted_genres = mlb_new.inverse_transform(y_pred_new)
+        # Format the predicted genres as a list
+        predicted_genres = [list(genres) for genres in predicted_genres]
+        res = {}
+        res['genre'] = predicted_genres
+        # Log the predicted genres
+        logger.info(f'Predicted genres (API): {predicted_genres}')
+        # Return the JSON response
+        return res
+    except Exception as e:
+        logger.error(f"Error predicting genres (API): {str(e)}")
+        return {"error": "An error occurred while predicting the genres."}
 
 if __name__ == '__main__':
     download_nltk_data()
