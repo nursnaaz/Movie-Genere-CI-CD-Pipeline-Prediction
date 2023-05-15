@@ -22,7 +22,7 @@ Docker (optional)
 8. License
 
 
-## Introduction
+# Introduction
 The movie genre classification project uses natural language processing techniques to predict the genres of movies based on their overviews. It employs a machine learning model trained on a labeled dataset of movie overviews and corresponding genres.
 
 ## Setup
