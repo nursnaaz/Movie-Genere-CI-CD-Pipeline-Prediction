@@ -30,5 +30,47 @@ To use the movie genre classification project, you can follow the instructions b
 
 ## Local Setup
 1. Clone the repository to your local machine:
+    
+    ``` git clone https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction.git ```
 
-```git clone https://github.com/your-username/movie-genre-classification.git```
+2. Navigate to the project directory:
+
+    ```cd Movie-Genere-CI-CD-Pipeline-Prediction```
+
+3. Install the required dependencies:
+
+    ```pip install -r requirements.txt```
+
+4. Run the Flask web application:
+
+    ```python app.py```
+    
+    
+ ## Docker Setup
+ 
+ 1. Install Docker on your machine. Refer to the [official Docker documentation](https://docs.docker.com/get-docker/) for instructions specific to your operating system.
+ 2. Clone the repository to your local machine:
+
+    ``` git clone https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction.git ```
+    
+ 3. Navigate to the project directory:
+
+    ```cd Movie-Genere-CI-CD-Pipeline-Prediction```
+    
+ 4. Build the Docker image:
+
+    ``` docker build -t movie-genre-classification . ```
+
+5. Run the Docker container:
+
+    ```  docker run -p 5000:5000 movie-genre-classification ```
+
+
+
+
+
+ 
+
+
+
+
