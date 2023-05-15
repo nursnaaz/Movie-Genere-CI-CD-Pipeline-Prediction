@@ -150,7 +150,7 @@ To set up CI/CD for your own repository, you can follow these steps:
 
 
 ## License
-The movie genre classification project is released under the MIT License. You are free to use, modify, and distribute the code for personal and commercial purposes.
+The project is released under the MIT License. You are free to use, modify, and distribute the code for personal and commercial purposes.
 
 
 
