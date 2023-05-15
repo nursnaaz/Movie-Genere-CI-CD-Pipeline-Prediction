@@ -148,6 +148,21 @@ To set up CI/CD for your own repository, you can follow these steps:
 
 ![Screenshot 2023-05-15 at 7 20 04 PM](https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/a6ba4881-3d98-4394-a8cb-2685fa940075)
 
+# Future Developement
+
+* Improving Model Performance: Experiment with different machine learning algorithms and techniques to improve the model's accuracy and F1-score. This could include exploring ensemble methods, deep learning models (e.g., LSTM or Transformer), or advanced feature engineering techniques.
+
+* Handling Imbalanced Data: Address the issue of imbalanced data in the movie genres dataset by applying techniques such as oversampling, undersampling, or utilizing class weights during model training. This can help improve the model's performance for genres with limited representation.
+
+* Enhancing Text Preprocessing: Refine the text preprocessing steps to improve the quality of the input data. This could involve experimenting with different techniques for removing noise, handling misspelled words, or incorporating part-of-speech tagging to capture more meaningful features.
+
+* Deployment Scalability: Optimize the deployment process to handle larger datasets and increased user traffic. This can involve exploring options like deploying the application on cloud platforms such as AWS, Google Cloud, or Azure, or implementing containerization with technologies like Kubernetes for easier scalability and resource management.
+
+* Multi-Language Support: Extend the model to support multiple languages for genre classification, allowing for a broader range of movies from different regions and languages to be categorized accurately.
+
+* User Interface Enhancements: Improve the user interface of the web application to provide a more intuitive and visually appealing experience. This can include adding search functionalities, filtering options, or displaying additional movie details along with the predicted genres.
+
+
 
 ## License
 The movie genre classification project is released under the MIT License. You are free to use, modify, and distribute the code for personal and commercial purposes.
