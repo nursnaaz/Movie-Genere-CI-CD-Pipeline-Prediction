@@ -169,4 +169,4 @@ def predict_api():
 if __name__ == '__main__':
     download_nltk_data()
     load_model()
-    app.run(host ='0.0.0.0' , port = 4080, debug=True)
+    app.run(debug=True)
