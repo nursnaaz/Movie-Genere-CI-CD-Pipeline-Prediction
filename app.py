@@ -168,6 +168,6 @@ def predict_api():
 #     return jsonify({'message': 'Training completed successfully!'})
 
 if __name__ == '__main__':
-    #download_nltk_data()
+    download_nltk_data()
     load_model()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=True)
