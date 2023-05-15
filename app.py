@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import json
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import re
@@ -22,10 +20,23 @@ import warnings
 warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
-# Load the saved MultiLabelBinarizer
-mlb_new = pickle.load(open("mlb.pkl", 'rb'))
-# Load the saved model
-pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
+
+mlb_new = None
+pipeline = None
+
+def download_nltk_data():
+    nltk.download('punkt')
+    nltk.download('stopwords')
+
+def load_model():
+    global mlb_new, pipeline
+    # Load the saved MultiLabelBinarizer
+    mlb_new = pickle.load(open("mlb.pkl", 'rb'))
+    print(mlb_new)
+    # Load the saved model
+    pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
+
+
 # # Load the dataset
 # data = pd.read_csv('movies_metadata.csv')
 
@@ -104,6 +115,7 @@ def predict():
     # dat = request.get_json()
     # print(dat)
     overview =  request.form["overview"]
+    print(overview)
     # Transform the input overview
     overview_cleaned = pd.Series(overview).apply(pipeline.named_steps['cleaner'].clean_text)
     # Predict the genres
@@ -111,7 +123,7 @@ def predict():
     t = 0.3  # threshold value
     y_pred_new = (y_pred_prob >= t).astype(int)
     # Convert the binary predictions back to genre labels
-    predicted_genres = mlb.inverse_transform(y_pred_new)
+    predicted_genres = mlb_new.inverse_transform(y_pred_new)
     # Format the predicted genres as a list
     predicted_genres = [list(genres) for genres in predicted_genres]
     return render_template('index.html', overview=overview, predicted_genres=predicted_genres)
@@ -128,7 +140,7 @@ def predict_api():
     t = 0.3  # threshold value
     y_pred_new = (y_pred_prob >= t).astype(int)
     # Convert the binary predictions back to genre labels
-    predicted_genres = mlb.inverse_transform(y_pred_new)
+    predicted_genres = mlb_new.inverse_transform(y_pred_new)
     # Format the predicted genres as a list
     predicted_genres = [list(genres) for genres in predicted_genres]
     res = {}
@@ -155,4 +167,6 @@ def predict_api():
 #     return jsonify({'message': 'Training completed successfully!'})
 
 if __name__ == '__main__':
-    app.run(host ='0.0.0.0' ,debug=True)
+    download_nltk_data()
+    load_model()
+    app.run(host ='0.0.0.0' , port = 4080, debug=True)
