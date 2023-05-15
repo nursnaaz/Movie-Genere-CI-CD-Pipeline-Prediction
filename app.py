@@ -23,23 +23,23 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
-# Load the dataset
-data = pd.read_csv('movies_metadata.csv')
+# # Load the dataset
+# data = pd.read_csv('movies_metadata.csv')
 
-# Extract required columns
-data = data[['overview', 'genres']]
+# # Extract required columns
+# data = data[['overview', 'genres']]
 
-# Clean the data
-def parse(x):
-    names = []
-    x = eval(x)
-    for dictionary in x:
-        names.append(dictionary['name'])
-    return names
+# # Clean the data
+# def parse(x):
+#     names = []
+#     x = eval(x)
+#     for dictionary in x:
+#         names.append(dictionary['name'])
+#     return names
 
-data['target'] = data['genres'].apply(parse)
-data = data[data['target'].apply(lambda x: len(x)) > 0]
-data = data.dropna(subset=['overview'])
+# data['target'] = data['genres'].apply(parse)
+# data = data[data['target'].apply(lambda x: len(x)) > 0]
+# data = data.dropna(subset=['overview'])
 
 # Text cleaning and stopword removal
 class TextPreprocessor(BaseEstimator, TransformerMixin):
@@ -66,31 +66,31 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
         tokens_cleaned = [token for token in tokens if token.lower() not in self.stopwords]
         return ' '.join(tokens_cleaned)
 
-# Split the dataset
-overview = data['overview']
-genres = data['target']
-X_train, X_test, y_train, y_test = train_test_split(overview, genres, test_size=0.5, random_state=42)
+# # Split the dataset
+# overview = data['overview']
+# genres = data['target']
+# X_train, X_test, y_train, y_test = train_test_split(overview, genres, test_size=0.5, random_state=42)
 
-# Apply MultiLabelBinarizer to target labels
-mlb = MultiLabelBinarizer()
-y_train_binarized = mlb.fit_transform(y_train)
+# # Apply MultiLabelBinarizer to target labels
+# mlb = MultiLabelBinarizer()
+# y_train_binarized = mlb.fit_transform(y_train)
 
-# Create the pipeline
-pipeline = Pipeline([
-    ('cleaner', TextPreprocessor()),
-    ('tfidf', TfidfVectorizer(max_df=0.8, max_features=10000)),
-    ('model', OneVsRestClassifier(LogisticRegression()))
-])
+# # Create the pipeline
+# pipeline = Pipeline([
+#     ('cleaner', TextPreprocessor()),
+#     ('tfidf', TfidfVectorizer(max_df=0.8, max_features=10000)),
+#     ('model', OneVsRestClassifier(LogisticRegression()))
+# ])
 
-# Train the model
-pipeline.fit(X_train, y_train_binarized)
+# # Train the model
+# pipeline.fit(X_train, y_train_binarized)
 
-# Save the pipeline and MultiLabelBinarizer
-pickle.dump(pipeline, open('model_pipeline.pkl', 'wb'))
-pickle.dump(mlb, open('mlb.pkl', 'wb'))
+# # Save the pipeline and MultiLabelBinarizer
+# pickle.dump(pipeline, open('model_pipeline.pkl', 'wb'))
+# pickle.dump(mlb, open('mlb.pkl', 'wb'))
 
-# Load the saved MultiLabelBinarizer
-mlb_new = pickle.load(open("mlb.pkl", 'rb'))
+# # Load the saved MultiLabelBinarizer
+# mlb_new = pickle.load(open("mlb.pkl", 'rb'))
 
 @app.route('/')
 def home():
@@ -98,6 +98,10 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Load the saved MultiLabelBinarizer
+    mlb_new = pickle.load(open("mlb.pkl", 'rb'))
+    # Load the saved model
+    pipeline = pickle.load(open("model_pipeline.pkl", 'rb'))
     # dat = request.get_json()
     # print(dat)
     overview =  request.form["overview"]
@@ -132,24 +136,24 @@ def predict_api():
     res['genre'] = predicted_genres
     return res
 
-@app.route('/train', methods=['POST'])
-def train():
-    # Split the dataset
-    overview = data['overview']
-    genres = data['target']
-    X_train, X_test, y_train, y_test = train_test_split(overview, genres, test_size=0.5, random_state=42)
+# @app.route('/train', methods=['POST'])
+# def train():
+#     # Split the dataset
+#     overview = data['overview']
+#     genres = data['target']
+#     X_train, X_test, y_train, y_test = train_test_split(overview, genres, test_size=0.5, random_state=42)
 
-    # Apply MultiLabelBinarizer to target labels
-    y_train_binarized = mlb.fit_transform(y_train)
+#     # Apply MultiLabelBinarizer to target labels
+#     y_train_binarized = mlb.fit_transform(y_train)
 
-    # Train the model
-    pipeline.fit(X_train, y_train_binarized)
+#     # Train the model
+#     pipeline.fit(X_train, y_train_binarized)
 
-    # Save the updated pipeline and MultiLabelBinarizer
-    pickle.dump(pipeline, open('model_pipeline.pkl', 'wb'))
-    pickle.dump(mlb, open('mlb.pkl', 'wb'))
+#     # Save the updated pipeline and MultiLabelBinarizer
+#     pickle.dump(pipeline, open('model_pipeline.pkl', 'wb'))
+#     pickle.dump(mlb, open('mlb.pkl', 'wb'))
 
-    return jsonify({'message': 'Training completed successfully!'})
+#     return jsonify({'message': 'Training completed successfully!'})
 
 if __name__ == '__main__':
     app.run(host ='0.0.0.0' ,debug=True)
