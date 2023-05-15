@@ -115,7 +115,7 @@ The model for movie genre classification was trained using the provided code. He
 * The dataset used for training is the movies_metadata.csv file, which can be downloaded from [Kaggle](https://www.kaggle.com/datasets/rounakbanik/the-movies-dataset?select=movies_metadata.csv) (34.45MB file within the 239MB zip file).
 * The data was preprocessed and cleaned by extracting the 'overview' and 'genres' columns from the dataset.
 * A TextPreprocessor class was implemented to clean the text data by removing special characters, converting to lowercase, and removing stopwords.
-* The dataset was split into training and testing sets using a 50% ratio.
+* The dataset was split into training and testing sets using a 80% ratio.
 * The target labels were binarized using MultiLabelBinarizer.
 * The movie genre classification model was built using a pipeline that includes text preprocessing, TF-IDF vectorization, and a logistic regression classifier.
 * The model was trained using the training dataset.
