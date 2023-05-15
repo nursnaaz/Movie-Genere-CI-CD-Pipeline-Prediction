@@ -72,8 +72,12 @@ Once you have set up the movie genre classification project, you can use it in t
 
 ## Web Application
 * Access the local web application by opening your web browser and visiting http://localhost:5555.
+
+![Screenshot 2023-05-15 at 7 15 18 PM](https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/aa7b718c-4ac9-47f8-a186-277f46d05216)
+
 * Access the Heroku web application by opening your web browser and visiting https://movie-genere.herokuapp.com/
 
+![Screenshot 2023-05-15 at 7 15 05 PM](https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/f51bfb31-2c8b-4bfc-85d2-5b3a8e655b1d)
 Enter a movie overview in the provided input field.
 
 Click the "Predict" button to get the predicted genres for the movie.
@@ -98,8 +102,12 @@ Parameter value: A vengeful New York transit cop decides to steal a trainload of
 
 ```curl -d "overview=A vengeful New York transit cop decides to steal a trainload of subway fares; his foster brother, a fellow cop, tries to protect him." -X POST https://movie-genere.herokuapp.com/predict_api```
 
+<img width="1495" alt="Screenshot 2023-05-15 at 7 00 38 PM" src="https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/e7798cf5-c8a7-46fc-932e-577606377ac4">
+
+
 ``` curl -d "overview=A vengeful New York transit cop decides to steal a trainload of subway fares; his foster brother, a fellow cop, tries to protect him." -X POST http:///localhost:5555/predict_api ```
 
+ <img width="1499" alt="Screenshot 2023-05-15 at 7 01 47 PM" src="https://github.com/nursnaaz/Movie-Genere-CI-CD-Pipeline-Prediction/assets/18391640/12fabc15-9622-49a6-b4c7-c1b4459e42f3">
  
 ## Model Training
 
