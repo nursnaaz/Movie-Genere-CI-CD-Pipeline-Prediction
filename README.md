@@ -71,8 +71,8 @@ To use the movie genre classification project, you can follow the instructions b
 Once you have set up the movie genre classification project, you can use it in two ways: through the web application or via the API endpoint.
 
 ## Web Application
-Access the local web application by opening your web browser and visiting http://localhost:5555.
-Access the Heroku web application by opening your web browser and visiting https://movie-genere.herokuapp.com/
+* Access the local web application by opening your web browser and visiting http://localhost:5555.
+* Access the Heroku web application by opening your web browser and visiting https://movie-genere.herokuapp.com/
 
 Enter a movie overview in the provided input field.
 
