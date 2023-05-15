@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Genre Prediction</title>
+</head>
+<body>
+    <h1>Movie Genre Prediction</h1>
+    <form action="/predict" method="POST">
+        <textarea name="overview" rows="5" cols="50" placeholder="Enter movie overview"></textarea><br><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if predicted_genres %}
+        <h2>Predicted Genres:</h2>
+        <ul>
+            {% for genres in predicted_genres %}
+                <li>{{ genres }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
